@@ -1,0 +1,220 @@
+:root {
+  --branco: #ffffff;
+  --cinzaEscuro: #292929;
+  --cinza: #2a2f2d;
+  --barraXp: #dcdde0;
+  --bgComida: #ffd900;
+  --bgDoado: #7cb867;
+  --bgVComida: #ff9447;
+  --bgVDoado: #31b5ff;
+  --bgMural: #dddddd;
+}
+
+.cabecalho {
+  position: fixed;
+  width: 100%;
+  z-index: 3;
+}
+
+.conteudo {
+  padding-left: 5rem;
+  padding-top: 6.35rem;
+}
+
+.menu-Lateral {
+  top: 0;
+  left: 0;
+  position: fixed;
+  width: auto;
+}
+
+.bg-Comida {
+  background-color: var(--bgComida);
+}
+
+.bg-Doado {
+  background-color: var(--bgDoado);
+}
+
+.bg-VComida {
+  background-color: var(--bgVComida);
+}
+
+.bg-VDoado {
+  background-color: var(--bgVDoado);
+}
+
+.bg-Mural {
+  background-color: var(--bgMural);
+}
+
+.border-azul {
+  border-left: 10px solid #679bb8;
+}
+
+.border-verde {
+  border-left: 10px solid #7cb867;
+}
+
+.border-vermelho {
+  border-left: 10px solid #b86767;
+}
+
+.bg-tela-terciario {
+  background-color: var(--branco);
+}
+
+.bg-tela-primario {
+  background-color: var(--cinzaEscuro);
+}
+
+.bg-tela-secundario {
+  background-color: var(--cinza);
+}
+
+.bg-bd-campo-primario {
+  background-color: var(--branco);
+  border: 2px solid var(--cinza);
+}
+
+.btn-branco {
+  background-color: var(--branco);
+  border: 2px solid var(--branco);
+  color: var(--cinza);
+  font-weight: bold;
+}
+
+.btn-cinza {
+  background-color: var(--cinza);
+  border: 2px solid var(--cinza);
+  color: var(--branco);
+  font-weight: bold;
+}
+
+.btn-branco:hover {
+  background-color: var(--cinza);
+  border: 2px solid var(--branco);
+  color: var(--branco);
+}
+
+.btn-cinza:hover {
+  background-color: var(--branco);
+  border: 2px solid var(--cinza);
+  color: var(--cinza);
+}
+
+.corBranco,
+.corBranco::placeholder,
+.corBranco:focus {
+  color: var(--branco);
+  font-weight: bold;
+}
+
+input.corBranco:focus {
+  background-color: var(--cinza) !important;
+}
+
+option,
+.corCinza,
+.corCinza::placeholder,
+.corCinza:focus {
+  color: var(--cinza);
+  font-weight: bold;
+}
+
+.fonte-0 {
+  font-size: 14px;
+}
+
+.fonte-1 {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.btn-menu {
+  flex: 1;
+  padding-top: 6.35rem;
+}
+
+.tamanho-img {
+  height: 300px;
+  max-width: 100%;
+}
+
+.tamanho-img-historico {
+  height: 330px;
+  max-width: 100%;
+}
+
+/* CSS do nivel de XP */
+.experience__bar {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+}
+.experience__bar > div {
+  background: var(--cinza);
+  border-radius: 25px;
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  height: 30px;
+  margin: 0 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+.experience__bar > div div {
+  background: var(--barraXp);
+  border-radius: 10px;
+  height: 20px;
+  z-index: 1;
+}
+.experience__bar span {
+  background: var(--cinza);
+  height: 60px;
+  width: 70px;
+  padding: 10px;
+  border-radius: 50%;
+  font-size: 1rem;
+  z-index: 0;
+}
+
+span.current__experience {
+  position: absolute;
+  top: -30px;
+  -webkit-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+
+.navbarLinks {
+  display: flex;
+  justify-content: space-between;
+}
+
+.spaceLinks {
+  display: flex;
+  justify-content: space-around;
+  margin-right: 50px;
+  gap: 20px;
+  align-items: center;
+}
+
+.active {
+  background-color: #ffecbb;
+  border-radius: 25px;
+  padding: 7px 30px !important;
+}
+
+.img-cozinha {
+  position: relative;
+}
+
+.container-text {
+  position: absolute;
+  z-index: 0;
+}
