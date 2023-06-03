@@ -50,6 +50,7 @@ class Donnation extends Connection
         throw new Exception("Tipo de doação de alimento não existe", 404);
       }
     }
+
     if (isset($data->userId)) {
       $userExists = $user->findById($data->userId);
 
@@ -74,7 +75,6 @@ class Donnation extends Connection
 
     $sql = "insert into " . $this->table . " (userId,typeDonnationId,typeFoodId,value) values (" . $data->userId . "," . $data->typeDonnationId . "," . $typeFoodId . "," . $data->value . ")";
 
-    // return $sql;
     return $this->connection->query($sql);
   }
 
@@ -145,5 +145,13 @@ class Donnation extends Connection
 
     $sql = "delete from " . $this->table . " where id = $id";
     return $this->connection->query($sql);
+  }
+
+  public function countAll() {
+    $sql = "select count(*) as total from donnation limit 1";
+
+    $result = $this->connection->query($sql)->fetch_assoc();
+
+    return $result;
   }
 }
