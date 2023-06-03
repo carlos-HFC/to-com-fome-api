@@ -7,7 +7,7 @@ class Auth extends Connection
       throw new Exception("Não há dados para processar", 400);
     }
 
-    $sql = "select u.name name, u.email email, r.name role from user as u join role as r on r.id = u.roleId where email = '" . trim($data->email) . "' && password = '" . hash("sha512", $data->password) . "'";
+    $sql = "select u.id id, u.name name, u.email email, r.name role from user as u join role as r on r.id = u.roleId where email = '" . trim($data->email) . "' && password = '" . hash("sha512", $data->password) . "'";
 
     $exists = $this->connection->query($sql)->fetch_assoc();
 
