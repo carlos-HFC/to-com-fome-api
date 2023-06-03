@@ -22,7 +22,9 @@ class User extends Connection
 
   public function findById($id)
   {
-    $exists = $this->connection->query($this->query . " where u.id = $id")->fetch_assoc();
+    $sql = "select address, district, city, level, experience from user where id = $id";
+
+    $exists = $this->connection->query($sql)->fetch_assoc();
 
     if (is_null($exists)) {
       throw new Exception("Usuário não encontrado", 404);
@@ -46,7 +48,7 @@ class User extends Connection
     $latitude = isset($data->latitude) ? $data->latitude : 'default';
     $longitude = isset($data->longitude) ? $data->longitude : 'default';
 
-    $sql = "insert into " . $this->table . " (name,email,password,document,phone,cep,address,district,city,uf,roleId,latitude,longitude) values ('" . $data->name . "', '" . $data->email . "', '" . hash("sha512", $data->password) . "', '" . $data->document . "', '" . $data->phone . "', '" . $data->cep . "', '" . $data->address . "', '" . $data->district . "', '" . $data->city . "', '" . $data->uf . "', " . $data->roleId . ", ". $latitude.",".$longitude.")";
+    $sql = "insert into " . $this->table . " (name,email,password,document,phone,cep,address,district,city,uf,roleId,latitude,longitude) values ('" . $data->name . "', '" . $data->email . "', '" . hash("sha512", $data->password) . "', '" . $data->document . "', '" . $data->phone . "', '" . $data->cep . "', '" . $data->address . "', '" . $data->district . "', '" . $data->city . "', '" . $data->uf . "', " . $data->roleId . ", " . $latitude . "," . $longitude . ")";
 
     return $this->connection->query($sql);
   }
@@ -73,6 +75,8 @@ class User extends Connection
     if (isset($data->uf)) $sql .= " uf='" . $data->uf . "',";
     if (isset($data->latitude)) $sql .= " latitude=" . $data->latitude . ",";
     if (isset($data->longitude)) $sql .= " longitude=" . $data->longitude . ",";
+    if (isset($data->level)) $sql .= " level=" . $data->level . ",";
+    if (isset($data->experience)) $sql .= " experience=" . $data->experience . ",";
     if (isset($data->roleId)) {
       $roleExists = $role->findById($data->roleId);
 
@@ -98,5 +102,26 @@ class User extends Connection
 
     $sql = "delete from " . $this->table . " where id = $id";
     return $this->connection->query($sql);
+  }
+
+  public function countCompanies()
+  {
+    $sql = "select count(*) total from " . $this->table . " where roleId = 1";
+
+    return $this->connection->query($sql)->fetch_assoc();
+  }
+
+  public function countFarmers()
+  {
+    $sql = "select count(*) total from " . $this->table . " where roleId = 2";
+
+    return $this->connection->query($sql)->fetch_assoc();
+  }
+
+  public function countVoluntaries()
+  {
+    $sql = "select count(*) total from " . $this->table . " where roleId = 3";
+
+    return $this->connection->query($sql)->fetch_assoc();
   }
 }
