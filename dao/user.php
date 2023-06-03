@@ -10,7 +10,7 @@ class User extends Connection
 
     if ($roleId) $this->query .= " where r.id = $roleId";
 
-    $result = $this->connection->query($this->query);
+    $result = $this->connection->query($this->query . " order by u.id asc");
 
     while ($record = $result->fetch_object()) {
       array_push($list, $record);
@@ -43,7 +43,10 @@ class User extends Connection
       }
     }
 
-    $sql = "insert into " . $this->table . " (name,email,password,document,phone,cep,address,district,city,uf,latitude,longitude,roleId) values ('" . $data->name . "', '" . $data->email . "', '" . hash("sha512", $data->password) . "', '" . $data->document . "', '" . $data->phone . "', '" . $data->cep . "', '" . $data->address . "', '" . $data->district . "', '" . $data->city . "', '" . $data->uf . "', " . $data->latitude . ", " . $data->longitude . ", " . $data->roleId . ")";
+    $latitude = isset($data->latitude) ? $data->latitude : 'default';
+    $longitude = isset($data->longitude) ? $data->longitude : 'default';
+
+    $sql = "insert into " . $this->table . " (name,email,password,document,phone,cep,address,district,city,uf,roleId,latitude,longitude) values ('" . $data->name . "', '" . $data->email . "', '" . hash("sha512", $data->password) . "', '" . $data->document . "', '" . $data->phone . "', '" . $data->cep . "', '" . $data->address . "', '" . $data->district . "', '" . $data->city . "', '" . $data->uf . "', " . $data->roleId . ", ". $latitude.",".$longitude.")";
 
     return $this->connection->query($sql);
   }
