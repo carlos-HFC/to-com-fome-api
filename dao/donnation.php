@@ -67,7 +67,7 @@ class Donnation extends Connection
       }
     }
 
-    $typeFoodId = isset($data->typeFoodId) ? $data->typeFoodId : null;
+    $typeFoodId = isset($data->typeFoodId) ? $data->typeFoodId : 'default';
 
     if ($data->value < 1) {
       throw new Exception("Valor da doação não pode ser menor que 1", 404);
@@ -147,11 +147,24 @@ class Donnation extends Connection
     return $this->connection->query($sql);
   }
 
-  public function countAll() {
-    $sql = "select count(*) as total from donnation limit 1";
+  public function countAll()
+  {
+    $sql = "select count(*) total from " . $this->table;
 
-    $result = $this->connection->query($sql)->fetch_assoc();
+    return $this->connection->query($sql)->fetch_assoc();
+  }
 
-    return $result;
+  public function countDonnationByMoney()
+  {
+    $sql = "select sum(value) value from " . $this->table . " where typeDonnationId = 1";
+
+    return $this->connection->query($sql)->fetch_assoc();
+  }
+
+  public function countDonnationByFood()
+  {
+    $sql = "select sum(value) value from " . $this->table . " where typeDonnationId = 2";
+
+    return $this->connection->query($sql)->fetch_assoc();
   }
 }
