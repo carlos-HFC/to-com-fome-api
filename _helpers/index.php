@@ -86,3 +86,7 @@ function siteHead(string $title)
         </head>
   HTML;
 }
+
+function experienceToNextLevel($currentExperience) {
+  return $currentExperience * 15;
+}
