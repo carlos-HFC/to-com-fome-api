@@ -126,7 +126,11 @@ if ($_POST) {
         <div class="row">
           <div class="text-start">
             <h3 class="ms-5 me-5 mb-0 fs-5 p-3">Historico de doações recebidas</h3>
-            <img src="../img/img-historico.webp" alt="Imagem historico de doações" class="tamanho-img-historico rounded-4 ps-5">
+            <?php if ($_SESSION['userRole'] == "Voluntário") : ?>
+              <img src="../img/img-historico-voluntario.webp" alt="Imagem historico de doações" class="tamanho-img-historico rounded-4 ps-5">
+            <?php else : ?>
+              <img src="../img/img-historico.webp" alt="Imagem historico de doações" class="tamanho-img-historico rounded-4 ps-5">
+            <?php endif ?>
           </div>
 
           <?php if ($_SESSION['userRole'] == 'Voluntário') : ?>
@@ -264,22 +268,30 @@ if ($_POST) {
 
           <div class="mt-4">
             <img src="../img/Selo4.webp" alt="Imagem Selo">
-            <p class="corBranco h4">Voluntario</p>
+            <p class="corBranco h4">
+              <?= $_SESSION['userRole'] ?>
+            </p>
           </div>
 
           <div class="mt-4">
             <img src="../img/Selo3.webp" alt="Imagem Selo">
-            <p class="corBranco h4">Voluntario</p>
+            <p class="corBranco h4">
+              <?= $_SESSION['userRole'] ?>
+            </p>
           </div>
 
           <div class="mt-4">
             <img src="../img/Selo2.webp" alt="Imagem Selo">
-            <p class="corBranco h4">Voluntario</p>
+            <p class="corBranco h4">
+              <?= $_SESSION['userRole'] ?>
+            </p>
           </div>
 
           <div class="mt-4">
             <img src="../img/Selo1.webp" alt="Imagem Selo">
-            <p class="corBranco h4">Voluntario</p>
+            <p class="corBranco h4">
+              <?= $_SESSION['userRole'] ?>
+            </p>
           </div>
         </div>
       </div>
