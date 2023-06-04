@@ -1,5 +1,6 @@
 <?php
 require("../_helpers/index.php");
+require("../_helpers/latlong.php");
 require("../_config/connection.php");
 require("../dao/auth.php");
 require("../dao/role.php");
@@ -7,9 +8,11 @@ require("../dao/user.php");
 echo siteHead("To Com Fome | Login");
 
 $authDao = new Auth();
+$latlongDao = new LatLong();
 $roleDao = new Role();
 $userDao = new User();
 
+$res = null;
 $result = null;
 $error = null;
 
@@ -24,8 +27,8 @@ if ($_POST) {
   $type = $_POST['u_type'];
   $roleId = $_POST['u_roleId'];
   $name = $_POST['u_name'];
-  $document = $_POST['u_document'];
-  $phone = $_POST['u_phone'];
+  $document = str_replace([".", "/", "-"], "", $_POST['u_document']);
+  $phone = str_replace(["(", ")", " ", "-"], "", $_POST['u_phone']);
   $cep = $_POST['u_cep'];
   $address = $_POST['u_address'];
   $district = $_POST['u_district'];
@@ -61,12 +64,19 @@ if ($_POST) {
         "document" => $document,
         "phone" => $phone,
         "cep" => $cep,
-        "address" => $address,
+        "address" => !empty($number) ? $address . ", " . $number : $address,
         "district" => $district,
         "number" => $number,
         "city" => $city,
         "uf" => $uf,
       );
+
+      if ($roleId == 3) {
+        $res = $latlongDao->getLatLong($address)[0];
+
+        $data->latitude = (float)number_format($res->lat, 7);
+        $data->longitude = (float)number_format($res->lon, 7);
+      }
 
       $result = $userDao->create($data);
 
@@ -79,14 +89,7 @@ if ($_POST) {
     $error = $e->getMessage();
   }
 }
-
 ?>
-
-<?php if ($_POST && !is_null($error)) : ?>
-  <?= $error ? $error : "Erro desconhecido" ?>
-<?php endif; ?>
-
-<?php var_dump($result) ?>
 
 <body class="bg-tela-primario cabecalho">
   <header>
@@ -125,17 +128,17 @@ if ($_POST) {
 
                   <input type="text" name="u_name" class="form-control text-center bg-bd-campo-primario corCinza mt-3 mb-3 " aria-labelledby="Nome" placeholder="NOME" required>
 
-                  <input type="text" name="u_document" class="form-control text-center bg-bd-campo-primario corCinza mt-3 mb-3 " aria-labelledby="Documento" placeholder="CNPJ / CPF" required>
+                  <input type="text" name="u_document" class="form-control text-center bg-bd-campo-primario corCinza mt-3 mb-3 " aria-labelledby="Documento" placeholder="CNPJ / CPF" required onkeydown="mask(this, 'document')" maxlength="18">
 
-                  <input type="text" name="u_phone" class="form-control text-center bg-bd-campo-primario corCinza mt-3 " aria-labelledby="telefone" placeholder="TELEFONE" required>
+                  <input type="text" name="u_phone" class="form-control text-center bg-bd-campo-primario corCinza mt-3 " aria-labelledby="telefone" placeholder="TELEFONE" required onkeydown="mask(this, 'phone')" maxlength="15">
 
                   <div class="row">
                     <div class="col">
-                      <input type="text" name="u_cep" class="form-control text-center bg-bd-campo-primario corCinza mt-3 mb-3" aria-labelledby="cep" placeholder="CEP" required>
+                      <input type="text" name="u_cep" class="form-control text-center bg-bd-campo-primario corCinza mt-3 mb-3" aria-labelledby="cep" placeholder="CEP" required onkeydown="mask(this, 'cep')" maxlength="9">
                     </div>
 
                     <div class="col-4 d-grid mx-auto ps-0">
-                      <button type="button" class="btn btn-cinza mt-3 mb-3">BUSCAR</button>
+                      <button type='button' class='btn btn-cinza mt-3 mb-3' onclick="getCep()">BUSCAR</button>
                     </div>
                   </div>
 
@@ -197,6 +200,65 @@ if ($_POST) {
       </div>
     </div>
   </main>
+
+  <script>
+    async function getCep() {
+      const cep = document.querySelector("[name=u_cep]").value
+      const url = `http://viacep.com.br/ws/${cep}/json`
+
+      const res = await fetch(url)
+
+      const response = await res.json()
+
+      document.querySelector("[name=u_address]").value = response.logradouro
+      document.querySelector("[name=u_district]").value = response.bairro
+      document.querySelector("[name=u_city]").value = response.localidade
+      document.querySelector("[name=u_uf]").value = response.uf
+    }
+
+    function mask(target, field) {
+      let value = target.value
+
+      switch (field) {
+        case 'cep':
+          target.value = value.replace(/\D/g, "")
+            .replace(/(\d{5})(\d)/, "$1-$2")
+            .replace(/(-\d{3})\d+?$/, "$1");
+          break;
+        case 'phone':
+          if (value.length === 15) {
+            target.value = value.replace(/\D/g, "")
+              .replace(/(\d{2})(\d)/, "($1) $2")
+              .replace(/(\d{5})(\d)/, "$1-$2")
+              .replace(/(-\d{4})\d+?$/, "$1");
+          } else {
+            target.value = value.replace(/\D/g, "")
+              .replace(/(\d{2})(\d)/, "($1) $2")
+              .replace(/(\d{4})(\d)/, "$1-$2")
+              .replace(/(-\d{4})\d+?$/, "$1");
+          }
+          break
+        case 'document':
+          if (value.length > 14) {
+            target.value = value.replace(/\D/g, "")
+              .replace(/(\d{2})(\d)/, "$1.$2")
+              .replace(/(\d{3})(\d)/, "$1.$2")
+              .replace(/(\d{3})(\d)/, "$1/$2")
+              .replace(/(\d{4})(\d)/, "$1-$2")
+              .replace(/(-\d{2})\d+?$/, "$1");
+          } else {
+            target.value = value.replace(/\D/g, "")
+              .replace(/(\d{3})(\d)/, "$1.$2")
+              .replace(/(\d{3})(\d)/, "$1.$2")
+              .replace(/(\d{3})(\d{1,2})/, "$1-$2")
+              .replace(/(-\d{2})\d+?$/, "$1");
+          }
+          break
+        default:
+          break;
+      }
+    }
+  </script>
 
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
