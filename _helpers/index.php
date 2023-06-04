@@ -46,7 +46,6 @@ function headerLogged($donnation)
     <header class="cabecalho">
       <nav class="navbar bg-tela-secundario">
         <div class="container-fluid">
-
           <a class="navbar" href="#">
             <img src="../img/Logo.svg" alt="Logo" width="70" height="70" class="d-inline-block align-text-top ms-5 me-4">
           </a>
@@ -63,7 +62,6 @@ function headerLogged($donnation)
           </div>
 
           <img src="../img/Olho_nav.svg" alt="Icone olho" class="ms-3 me-5" />
-        </div>
         </div>
       </nav>
     </header>
@@ -87,6 +85,6 @@ function siteHead(string $title)
   HTML;
 }
 
-function experienceToNextLevel($currentExperience) {
-  return $currentExperience * 15;
+function experienceToNextLevel($currentLevel) {
+  return $currentLevel * 15;
 }
