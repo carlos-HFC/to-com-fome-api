@@ -3,11 +3,13 @@
   --cinzaEscuro: #292929;
   --cinza: #2a2f2d;
   --barraXp: #dcdde0;
+  --marrom: #873100;
   --bgComida: #ffd900;
   --bgDoado: #7cb867;
   --bgVComida: #ff9447;
   --bgVDoado: #31b5ff;
   --bgMural: #dddddd;
+  --bege: #ffecbb;
 }
 
 .cabecalho {
@@ -191,21 +193,10 @@ span.current__experience {
   transform: translateX(-50%);
 }
 
-.navbarLinks {
-  display: flex;
-  justify-content: space-between;
-}
-
-.spaceLinks {
-  display: flex;
-  justify-content: space-around;
-  margin-right: 50px;
-  gap: 20px;
-  align-items: center;
-}
+/* HOME */
 
 .active {
-  background-color: #ffecbb;
+  background-color: var(--bege);
   border-radius: 25px;
   padding: 7px 30px !important;
 }
@@ -216,5 +207,54 @@ span.current__experience {
 
 .container-text {
   position: absolute;
-  z-index: 0;
+}
+
+.corMarrom {
+  color: var(--marrom);
+  font-weight: bold;
+}
+
+.btn-marrom {
+  background-color: var(--marrom);
+  border: 2px solid var(--marrom);
+  color: var(--branco);
+  font-weight: bold;
+}
+
+a.btn-marrom {
+  text-decoration: none;
+}
+
+.bg-grad-marrom {
+  height: 500px;
+  background-image: linear-gradient(180deg, #ae5e2f, rgb(174, 94, 47, 0));
+  padding: 10px;
+  box-shadow: 0px 5px 15px 5px  rgba(0, 0, 0, 0.35);
+}
+
+.corBege {
+  color: var(--bege);
+  font-weight: bold;
+}
+
+.bg-tela-home {
+  background: var(--cinzaEscuro) url(../img/bg_home.webp);
+  background-size: 100% 100%;
+}
+
+.bg-bege {
+  background-color: var(--bege);
+}
+
+.tamanho-Icon {
+  width: 80px;
+  height: 80px;
+}
+
+a.btn-link {
+  text-decoration: none;
+}
+
+.corBrancoSemBold {
+  color: var(--branco);
 }
