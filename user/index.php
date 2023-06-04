@@ -3,6 +3,9 @@ require("../_helpers/index.php");
 require("../_config/connection.php");
 require("../dao/donnation.php");
 require("../dao/news.php");
+require("../dao/role.php");
+require("../dao/typeDonnation.php");
+require("../dao/typeFood.php");
 require("../dao/typeNews.php");
 require("../dao/user.php");
 echo siteHead("To Com Fome | Usuário");
@@ -18,11 +21,12 @@ $food = $donnationDao->countDonnationByFood();
 $companies = $userDao->countCompanies();
 $farmers = $userDao->countFarmers();
 $voluntaries = $userDao->countVoluntaries();
-$profile = $userDao->findById($_SESSION['userId']);
-
-$experienceToNextLevel = experienceToNextLevel($profile['level']);
 
 echo headerLogged($donnation['total']);
+
+$profile = $userDao->findById($_SESSION['userId']);
+$experienceToNextLevel = experienceToNextLevel(intval($profile['level']));
+$currentExperience = round(intval($profile['experience'] * 100)) / $experienceToNextLevel;
 
 $result = null;
 $error = null;
@@ -49,7 +53,6 @@ if ($_POST) {
     $error = $e->getMessage();
   }
 }
-
 ?>
 
 <main class="conteudo">
@@ -108,8 +111,8 @@ if ($_POST) {
             <div class="col-6 mx-auto mb-3">
               <header class="experience__bar">
                 <div class="d-flex align-items-center p-2">
-                  <div style="width: <?= round($profile['experience'] * 100) / $experienceToNextLevel ?>%"></div>
-                  <span class="current__experience" style="left: <?= round($profile['experience'] * 100) / $experienceToNextLevel ?>%">
+                  <div style="width: <?= $currentExperience ?>%"></div>
+                  <span class="current__experience" style="left: 50%">
                     <p class="corBranco m-0">
                       <?= $profile['level'] ?>
                     </p>
