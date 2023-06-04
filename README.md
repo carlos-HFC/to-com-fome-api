@@ -6,14 +6,9 @@ O maior beneficiado é a pessoa vulnerável que terá acesso de maneira mais ág
 
 Os produtores serão os únicos a comercializar o seu serviço.
 
-<br><br>
-
 ## Instalação
----
 
 Para utilizar a aplicação, você pode optar por duas formas de instalação:
-
-<br>
 
 ### Docker
 
@@ -22,8 +17,6 @@ Utilizando o Docker, necessita-se de um arquivo de variáveis ambiente. Após cr
 ```bash
 docker-compose --env-file .env up
 ```
-
-<br>
 
 ### Apache
 
@@ -37,10 +30,7 @@ Para conferir se você está conectado, acesse [essa URL](http://localhost/serve
 }
 ```
 
-<br><br>
-
 ## Criando o banco
----
 
 ### Docker
 
@@ -48,18 +38,13 @@ Com a aplicação rodando, acesse a URL do [PHPMyAdmin](http://localhost:8080). 
 
 Ao acessar a página do PHPMyAdmin, vá na opção do menu "Importar" e suba o arquivo `db.sql` que está na pasta `db`.
 
-<br>
-
 ### Apache
 
 Com o Apache e o MySQL rodando, acesse a URL do [PHPMyAdmin](http://localhost/phpmyadmin). 
 
 Ao acessar a página do PHPMyAdmin, vá na opção do menu "Importar" e suba o arquivo `db.sql` que está na pasta `db`.
 
-<br><br>
-
 ## API
----
 
 A API se encontra na pasta `server`, com o CRUD completo da aplicação.
 
@@ -125,10 +110,7 @@ A API se encontra na pasta `server`, com o CRUD completo da aplicação.
   - Editar uma notícia: PUT/PATCH - /news.php?id=\<id\>
   - Deletar uma notícia: DELETE - /news.php?id=\<id\>
 
-<br><br>
-
 ## Contribuidores
----
 
 - Caio Lopes Oliveira - RM 94693
 - Carlos Henrique Faustino Cardoso - RM 94213
