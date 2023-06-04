@@ -35,13 +35,6 @@ function unexpectedError()
 
 function headerLogged($donnation)
 {
-  session_start();
-
-  if (empty($_SESSION['userName'])) {
-    header("Location: ../login");
-    die();
-  }
-
   return <<<HTML
     <header class="cabecalho">
       <nav class="navbar bg-tela-secundario">
@@ -70,8 +63,6 @@ function headerLogged($donnation)
 
 function siteHead(string $title)
 {
-  session_start();
-
   return <<<HTML
     <!DOCTYPE html>
       <html lang="pt">
@@ -85,6 +76,7 @@ function siteHead(string $title)
   HTML;
 }
 
-function experienceToNextLevel($currentLevel) {
+function experienceToNextLevel($currentLevel)
+{
   return $currentLevel * 15;
 }

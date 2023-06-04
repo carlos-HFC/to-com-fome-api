@@ -5,7 +5,8 @@ require("../_config/connection.php");
 require("../dao/auth.php");
 require("../dao/role.php");
 require("../dao/user.php");
-echo siteHead("To Com Fome | Login");
+
+session_start();
 
 $authDao = new Auth();
 $latlongDao = new LatLong();
@@ -25,16 +26,6 @@ try {
 
 if ($_POST) {
   $type = $_POST['u_type'];
-  $roleId = $_POST['u_roleId'];
-  $name = $_POST['u_name'];
-  $document = str_replace([".", "/", "-"], "", $_POST['u_document']);
-  $phone = str_replace(["(", ")", " ", "-"], "", $_POST['u_phone']);
-  $cep = $_POST['u_cep'];
-  $address = $_POST['u_address'];
-  $district = $_POST['u_district'];
-  $number = $_POST['u_number'];
-  $city = $_POST['u_city'];
-  $uf = $_POST['u_uf'];
   $email = $_POST['u_email'];
   $password = $_POST['u_password'];
 
@@ -56,6 +47,17 @@ if ($_POST) {
         die();
       }
     } else {
+      $roleId = $_POST['u_roleId'];
+      $name = $_POST['u_name'];
+      $document = str_replace([".", "/", "-"], "", $_POST['u_document']);
+      $phone = str_replace(["(", ")", " ", "-"], "", $_POST['u_phone']);
+      $cep = $_POST['u_cep'];
+      $address = $_POST['u_address'];
+      $district = $_POST['u_district'];
+      $number = $_POST['u_number'];
+      $city = $_POST['u_city'];
+      $uf = $_POST['u_uf'];
+
       $data = (object) array(
         "email" => $email,
         "password" => $password,
@@ -89,6 +91,8 @@ if ($_POST) {
     $error = $e->getMessage();
   }
 }
+
+echo siteHead("To Com Fome | Login");
 ?>
 
 <body class="bg-tela-primario cabecalho">

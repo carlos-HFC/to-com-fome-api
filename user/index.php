@@ -8,7 +8,8 @@ require("../dao/typeDonnation.php");
 require("../dao/typeFood.php");
 require("../dao/typeNews.php");
 require("../dao/user.php");
-echo siteHead("To Com Fome | Usuário");
+
+session_start();
 
 $donnationDao = new Donnation();
 $newsDao = new News();
@@ -22,6 +23,7 @@ $companies = $userDao->countCompanies();
 $farmers = $userDao->countFarmers();
 $voluntaries = $userDao->countVoluntaries();
 
+echo siteHead("To Com Fome | Usuário");
 echo headerLogged($donnation['total']);
 
 $profile = $userDao->findById($_SESSION['userId']);

@@ -6,7 +6,8 @@ require("../dao/typeDonnation.php");
 require("../dao/typeFood.php");
 require("../dao/role.php");
 require("../dao/user.php");
-echo siteHead("To Com Fome | Doação");
+
+session_start();
 
 $donnationDao = new Donnation();
 $typeDonnationDao = new TypeDonnation();
@@ -22,7 +23,6 @@ $error = null;
 if ($_POST) {
   $type = $_POST['d_type'];
   $value = $_POST['d_value'];
-  $typeFood = $_POST['d_typeFood'];
 
   try {
     if ($type == 'dinheiro') {
@@ -32,6 +32,8 @@ if ($_POST) {
         "typeDonnationId" => 1
       );
     } else {
+      $typeFood = $_POST['d_typeFood'];
+
       $data = (object) array(
         "userId" => intval($_SESSION['userId']),
         "value" => floatval($value),
@@ -70,12 +72,10 @@ if ($_POST) {
 }
 
 $donnation = $donnationDao->countAll();
+
+echo siteHead("To Com Fome | Doação");
 echo headerLogged($donnation['total']);
 ?>
-
-<?php if ($_POST && !is_null($error)) : ?>
-  <?= $error ? $error : "Erro desconhecido" ?>
-<?php endif; ?>
 
 <main class="conteudo">
   <div class="container-fluid text-center ">
@@ -103,9 +103,6 @@ echo headerLogged($donnation['total']);
 
       <div class="col">
         <h2 class="m-3 mb-5 h1">Doação</h2>
-
-        <?= var_dump($result); ?>
-        <?= var_dump($res); ?>
 
         <div class="row pt-5 d-flex justify-content-center">
           <div class="col-5 border-end">
